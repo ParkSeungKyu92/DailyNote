@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 const HeaderBlock = styled.div`
-    postion : fixed;
+    position : fixed;
     width : 100%;
     background : gray;
 `;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
     height : 4rem;
     display : flex;
     align-items : center;
-    margin-left : 40%;
+    margin-left : 42%;
     .logo {
         font-size : 1.5rem;
         font-weight : 800;
