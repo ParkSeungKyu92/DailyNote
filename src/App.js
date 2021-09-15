@@ -14,6 +14,7 @@ function App() {
       <Route component={LoginPage} path="/login"></Route>
       <Route component={RegisterPage} path="/register"></Route>
       </>
+      
   );
 }
 

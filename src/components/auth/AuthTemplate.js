@@ -18,7 +18,7 @@ const Box = styled.div`
     padding : 2rem;
     background : gray;
     box-shadow 0 0 8px rgba(0,0,0,0.25);
-    width : 400;
+    width : 400px;
     border-radius : 2px;
 `;
 

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState , useCallback} from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { Modal } from '../../../node_modules/@material-ui/core/index';
+import axios from 'axios';
 
 const AuthFormBlock = styled.div`
     display: flex;
@@ -63,45 +65,80 @@ const Footer = styled.div`
         text-align : right;
     }
 `;
+
+const ModalWrapper = styled.div`
+    position: absolute;
+    width: 400px;
+    background: white;
+    box-shadow 0 0 8px rgba(255,255,0,0.25);
+    top : 40%;
+    left : 40%;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+`;
+
 const typeToString = {
     login : "로그인",
     register : "회원가입"
 };
 
-const AuthForm = ({type}) => {
+const AuthForm = ({
+    type, form, onChange, onSubmit, error}) => {
     const text = typeToString[type];
-    return(
-        <AuthFormBlock>
-            <h3>{text}</h3>
-            {
-                type === "register" && (<AuthInput placeholder="이름"></AuthInput>)
-            }
-            {
-                type === "register" && (<AuthInput placeholder="생년월일"></AuthInput>)
-            }
-            <AuthInput placeholder="아이디"></AuthInput>
-            <AuthInput placeholder="비밀번호" type="password"></AuthInput>
-            {
-                type === "register" && (<AuthInput placeholder="비밀번호 확인" type="password"></AuthInput>)
-            }
-            {
-                type === "register" && (<AuthInput placeholder="이메일"></AuthInput>)
-            }
-            {
-                type === "register" && (<AuthInput placeholder="핸드폰"></AuthInput>)
-            }
-            
-            <Spacer></Spacer>
-            <AuthButton>{text}</AuthButton>
-            <Footer>
-                <Link>아이디 찾기</Link>
-                <Link>패스워드 찾기</Link>
-                {
-                    type === "login" ? <Link to='/register'>회원가입</Link> : <Link to='/login'>로그인</Link>
-                }
-            </Footer>
-        </AuthFormBlock>
+    const [modalVisible, setModalVisible] = useState(false);
 
+    const closeModal = () => {
+        setModalVisible(false);
+    }
+    
+    return(
+        <div>
+            <Modal
+                open={modalVisible}
+                onClose={closeModal}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="modal-description"
+            >
+            <ModalWrapper>
+            <h2 id="simple-modal-title">
+                {text}
+            </h2>
+            <p id="modal-description">
+                {error || "성공"}
+            </p>
+            </ModalWrapper>
+            </Modal>
+            <AuthFormBlock>            
+                <h3>{text}</h3>
+                <form onSubmit={onSubmit}>
+                    <AuthInput onChange={onChange} value={form.id} name='id' placeholder="아이디"></AuthInput>
+                    <AuthInput onChange={onChange} value={form.password} name='password' placeholder="비밀번호" type="password"></AuthInput>
+                    {
+                        type === "register" && (<AuthInput value={form.passwordConfirm} onChange={onChange} name='passwordConfirm' placeholder="비밀번호 확인" type="password"></AuthInput>)
+                    }
+                    {
+                        type === "register" && (<AuthInput value={form.username} onChange={onChange} name='username' placeholder="이름"></AuthInput>)
+                    }
+                    {
+                        type === "register" && (<AuthInput value={form.email} onChange={onChange} name='email' placeholder="이메일"></AuthInput>)
+                    }
+                    {
+                        type === "register" && (<AuthInput value={form.sms} onChange={onChange} name='sms' placeholder="핸드폰"></AuthInput>)
+                    }
+                    <Spacer></Spacer>
+                    <AuthButton>{text}</AuthButton>
+                </form>
+                <Footer>
+                    <Link to='/'>아이디 찾기</Link>
+                    <Link to='/'>패스워드 찾기</Link>
+                    {
+                        type === "login" ? <Link to='/register'>회원가입</Link> : <Link to='/login'>로그인</Link>
+                    }
+                </Footer>
+            </AuthFormBlock>
+        </div>
     );
 };
 
