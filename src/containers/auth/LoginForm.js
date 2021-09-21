@@ -29,9 +29,19 @@ const LoginForm = () => {
         dispatch(login({id, password}));
     }
 
-    // useEffect(() => {
-    //     dispatch(initailizeForm('login'));
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch(initailizeForm('login'));
+    }, [dispatch])
+
+    useEffect(() => {
+        if (auth) {
+
+        }
+        if (authError) {
+            console.log(authError);
+            setError("아이디 또는 비밀번호가 잘못 입력 되었습니다.\n아이디와 비밀번호를 정확히 입력해 주세요.");
+        }
+    }, [auth, authError, dispatch]);
 
     return <AuthForm
         type="login"

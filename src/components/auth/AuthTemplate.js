@@ -7,7 +7,6 @@ const AuthTamplateBlock = styled.div`
     top : 0;
     bottom : 0;
     right : 0;
-
     display : flex;
     flex-direction : column;
     justify-content : center;
@@ -16,7 +15,7 @@ const AuthTamplateBlock = styled.div`
 
 const Box = styled.div`
     padding : 2rem;
-    background : gray;
+    background : #fff;
     box-shadow 0 0 8px rgba(0,0,0,0.25);
     width : 400px;
     border-radius : 2px;

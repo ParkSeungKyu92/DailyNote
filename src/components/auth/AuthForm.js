@@ -2,7 +2,6 @@ import React, { useState , useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Modal } from '../../../node_modules/@material-ui/core/index';
 import axios from 'axios';
 
 const AuthFormBlock = styled.div`
@@ -18,14 +17,14 @@ const AuthFormBlock = styled.div`
 
 const AuthInput = styled.input`
     font-size : 1rem;
-    width : 100%;
+    width : 99%;
     outline : none;
-    border : none;
+    border : 1px solid gray;
     padding-bottom : 0.5rem;
     padding-top : 0.5rem;
-    border-bottom : 1px solid gray;
     border-radius: 5px;
-    margin : 2px 0;
+    margin : 8px 0;
+    box-shadow 0 0 8px rgba(0,0,0,0.25);
 `;
 
 const Spacer = styled.div`
@@ -66,17 +65,12 @@ const Footer = styled.div`
     }
 `;
 
-const ModalWrapper = styled.div`
-    position: absolute;
-    width: 400px;
-    background: white;
-    box-shadow 0 0 8px rgba(255,255,0,0.25);
-    top : 40%;
-    left : 40%;
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
+const ErrorMsg = styled.div`
+    font-size : 1rem;
+    text-align : left;
+    color : #ff003e;
+    margin-top : 1rem;
+    white-space: pre-wrap;
 `;
 
 const typeToString = {
@@ -87,29 +81,9 @@ const typeToString = {
 const AuthForm = ({
     type, form, onChange, onSubmit, error}) => {
     const text = typeToString[type];
-    const [modalVisible, setModalVisible] = useState(false);
 
-    const closeModal = () => {
-        setModalVisible(false);
-    }
-    
     return(
         <div>
-            <Modal
-                open={modalVisible}
-                onClose={closeModal}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="modal-description"
-            >
-            <ModalWrapper>
-            <h2 id="simple-modal-title">
-                {text}
-            </h2>
-            <p id="modal-description">
-                {error || "성공"}
-            </p>
-            </ModalWrapper>
-            </Modal>
             <AuthFormBlock>            
                 <h3>{text}</h3>
                 <form onSubmit={onSubmit}>
@@ -130,6 +104,9 @@ const AuthForm = ({
                     <Spacer></Spacer>
                     <AuthButton>{text}</AuthButton>
                 </form>
+                {
+                    error && <ErrorMsg>{error}</ErrorMsg>
+                }
                 <Footer>
                     <Link to='/'>아이디 찾기</Link>
                     <Link to='/'>패스워드 찾기</Link>
